@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Homework Module: \textbf{Programming the Basics of an Evolutionary Algorithm(EA)}}
+
+\author{Sigve Sebastian Farstad}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This report presents a solution to Homework Module: Programming the Basics of an Evolutionary Algorithm(EA), IT3708, spring 2014, NTNU.
+The assignment is to implement all of the basic components of an evolutionary algorithm, and use them to solve the One-Max problem.
+
+\section{The Evolutionary Algorithm Implementation}
+
+The evolutionary algorithm solver presented in this solution is implemented as modular python library.
+A generic solver function solves arbitrary problems supplied by the user of the library.
+Problems consist of a set of configuration options for selecting 
+
+\section{The One-Max Problem}
+
+The One-Max problem is a simple problem popularly chosen as a demonstration problem for testing evolutionary algorithm implementations.
+It has no other real-world applications.
+The problem is: what is the binary string of length $ n $ that contains the largest number of Ones?
+The problem is trivial, but is good for basic evolutionary algorithm testing because of its transparency and simplicity.
+
+\subsection{Genotype and Phenotype Representation}
+
+A single genotype is represented as a binary vector of length $ n $.
+Because of the simplicity of the program, the phenotype is identical.
+
+\subsection{Fitness Evaluation}
+
+The fitness function $ f_{\textsc{OneMax}}(g) $ of a genotype $ g $ is defined as equation \ref{equation:fitness}, where $ g_i $ is the $ i $\textsuperscript{th} bit of the genome $ g $.
+
+\begin{equation}\label{equation:fitness}
+f_{\textsc{OneMax}}(g) = \sum_{i=1}^{n} g_i
+\end{equation}
+
+\end{document}

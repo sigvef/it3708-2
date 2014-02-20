@@ -1,53 +1,50 @@
-import math
+import random
 from ea.solve import solve
-from ea.adult_selection import generational_mixing
+from ea.adult_selection import full_generational_replacement
 from ea.parent_selection import tournament_selection
 from ea.crossover import genome_component_crossover
 from ea.mutation import per_genome_component_mutation
-from ea.genotypes import BitVectorGenotype
+from ea.genotypes import SymbolVectorGenotype
+
+symbol_set_size = 18
+problem_size = 46
 
 
 class SurprisingSequences(object):
 
-    symbol_set_size = 10
-    sequence_length = 26
-    problem_size = int(math.ceil(
-        math.log(symbol_set_size ** sequence_length, 2)))
-    children_pool_size = 2000
-    adult_pool_size = 2000
+    def mutate_genome(genome, i):
+        possible_symbols = range(1, symbol_set_size + 1) * 3
+        try:
+            for j in range(len(genome)):
+                possible_symbols.remove(genome[j])
+            genome[i] = random.choice(possible_symbols)
+        except:
+            pass
+
+    symbol_set_size = symbol_set_size
+    problem_size = problem_size
+    children_pool_size = 200
+    adult_pool_size = 200
     fitness_satisfaction_threshold = 1
-    maximum_generations = 2000
-    select_adults = generational_mixing()
+    maximum_generations = 100000
+    select_adults = full_generational_replacement()
     select_parent = tournament_selection(k=8)
     crossover = genome_component_crossover()
-    mutate = per_genome_component_mutation(probability=0.01)
+    mutate = per_genome_component_mutation(probability=0.01,
+                                           mutate=mutate_genome)
 
     def phenotype(self, genotype):
-        integer_representation = int(genotype)
-        if integer_representation >\
-                self.symbol_set_size ** self.sequence_length:
-            return False
-
-        phenotype = []
-        while integer_representation:
-            phenotype.append(integer_representation % self.symbol_set_size)
-            integer_representation /= self.symbol_set_size
-        while len(phenotype) < self.sequence_length:
-            phenotype.append(0)
-
+        phenotype = [genotype[i] for i in range(len(genotype))]
         return phenotype
 
     def calculate_fitness(self, genotype):
 
         phenotype = self.phenotype(genotype)
 
-        if not phenotype:
-            return 0
-
         found_sequences = set()
         collisions = 0
-        for i in range(self.sequence_length):
-            for j in range(i + 1, self.sequence_length):
+        for i in range(self.problem_size):
+            for j in range(i + 1, self.problem_size):
                 a = phenotype[i]
                 b = phenotype[j]
                 sequence = (a, b, j - i)
@@ -57,16 +54,31 @@ class SurprisingSequences(object):
                     found_sequences.update([sequence])
 
         fitness = 1 / (1. + collisions)
+
+        possible_symbols = range(1, symbol_set_size + 1) * 3
+        try:
+            for j in range(len(genotype)):
+                possible_symbols.remove(genotype[j])
+        except:
+            fitness /= 10
+            fitness = max(fitness, 0.)
         return fitness
 
     def initial_population(self):
-        return [BitVectorGenotype(self.problem_size)
-                for j in range(self.children_pool_size)]
+        population = [SymbolVectorGenotype(self.symbol_set_size,
+                                           self.problem_size)
+                      for j in range(self.children_pool_size)]
+        self.possible_symbols = range(1, self.symbol_set_size + 1) * 3
+        for genotype in population:
+            random.shuffle(self.possible_symbols)
+            for i in range(len(genotype)):
+                genotype[i] = self.possible_symbols[i]
+        return population
 
 
 def main():
     problem = SurprisingSequences()
     solution_genotype = solve(problem)
-    print solution_genotype, problem.phenotype(solution_genotype)
+    print solution_genotype
 
 main()

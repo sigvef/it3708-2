@@ -1,6 +1,9 @@
 from tools import Mixin
 import random
-import numpypy as np
+try:
+    import numpypy as np
+except:
+    import numpy as np
 
 
 def fitness_proportionate_selection():
@@ -24,6 +27,7 @@ def sigma_scaling_selection():
         fitnesses = [individual.fitness for individual in population]
         average_fitness = np.mean(fitnesses)
         standard_deviation = np.std(fitnesses)
+        standard_deviation = max(0.0001, standard_deviation)
         scaled_fitnesses = [1 + (fitness - average_fitness) /
                             (2 * standard_deviation)
                             for fitness in fitnesses]

@@ -1,3 +1,7 @@
+try:
+    import numpypy as np
+except:
+    import numpy as np
 
 
 def solve(problem):
@@ -12,7 +16,10 @@ def solve(problem):
         print 'generation', generation
         if adults:
             print adults[-1]
-            print problem.phenotype(adults[-1])
+            print 'best:', adults[-1].fitness
+            fitnesses = [x.fitness for x in adults]
+            print 'mean:', np.mean(fitnesses)
+            print 'std: ', np.std(fitnesses)
 
         for child in children:
             child.fitness = problem.calculate_fitness(child)
