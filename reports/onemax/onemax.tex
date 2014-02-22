@@ -18,7 +18,47 @@ The assignment is to implement all of the basic components of an evolutionary al
 
 The evolutionary algorithm solver presented in this solution is implemented as modular python library.
 A generic solver function solves arbitrary problems supplied by the user of the library.
-Problems consist of a set of configuration options for selecting 
+
+\subsection{Adult Selection}
+Full generational replacement, over-production and generational mixing.
+\subsection{Parent Selection}
+\subsubsection{Fitness-Proportionate Selection}
+Fitness-proportionate selection is a selection scheme where an individual is selected at random, with the probability of being chosen equal to $ \frac{f(i)}{F} $, where $ f(i) $ is the fitness of an individual, and $ F $ is the total fitness of the population.
+
+\subsubsection{Sigma Scaling Selection}
+Sigma-scaling selection is similar to fitness-proportionate scaling, but the probability of a given individual being chosen is scaled by the fitness variance of the population, as in equation 3 of \cite{ea-appendices}.
+
+\subsubsection{Tournament Selection}
+
+Tournament selection is a selection scheme where a predefined $ k < | population | $ number of individuals are selected for participation in a tournament.
+Of these competing individuals, the one with the greatest fitness score gets selected.
+Tournament selection guarantees that the $ k - 1 $ worst individuals in a population will not get selected.
+
+\subsubsection{Rank Selection}
+
+Rank selection is a selection scheme similar to fitness-proportionate selection, only the probability of selection is defined as in equation \ref{equation:rank-selection}.
+
+\begin{equation}\label{equation:rank-selection}
+P_{selection} = 2 \times
+\frac{rank(i)}
+{| population | \times (| population | + 1)}
+\end{equation}
+
+\subsubsection{Random Selection}
+Random selection is a selection scheme that simply selects an individual at random.
+It is not a good selection scheme for an EA, but is included in the selection suite for benchmarking purposes.
+
+\subsection{Crossover}
+Crossover is a method for combining the genome of two individuals to create a new individual based on the originals.
+The evolutionary algorithm implementation made for this assignment offers two different crossover strategies: split and per-component.
+
+\subsubsection{Split Crossover}
+
+
+\subsubsection{Per-component Crossover}
+
+
+\subsection{Mutation}
 
 \section{The One-Max Problem}
 

@@ -6,8 +6,8 @@ from ea.crossover import genome_component_crossover
 from ea.mutation import per_genome_component_mutation
 from ea.genotypes import SymbolVectorGenotype
 
-symbol_set_size = 18
-problem_size = 46
+symbol_set_size = 20
+problem_size = 53
 
 
 class SurprisingSequences(object):
