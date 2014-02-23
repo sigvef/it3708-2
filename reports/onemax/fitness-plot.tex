@@ -1,0 +1,26 @@
+\newcommand{\fitnessplot}[1]{
+\begin{tikzpicture}
+\begin{axis}
+[
+axis x line=bottom,
+axis y line=left,
+width=\textwidth / 2,
+xmax=20,
+xmin=0,
+ymax=1.05,
+ymin=0.21,
+axis y discontinuity=crunch,
+extra y ticks={1.0},
+extra y tick style={
+    grid=major
+},
+scaled x ticks={real:0.2},
+xtick scale label code/.code={},
+boxplot/draw direction=y,
+xlabel=Generation,
+ylabel=Fitness,
+]
+#1
+\end{axis}
+\end{tikzpicture}
+}

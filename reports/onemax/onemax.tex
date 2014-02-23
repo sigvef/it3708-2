@@ -1,5 +1,14 @@
-\documentclass{article}
+\documentclass[twocolumn,oneside]{amsart}
 \usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage{pgfplots}
+\usepackage{float}
+\usepackage{subfig}
+\pgfplotsset{compat=1.8}
+\usepgfplotslibrary{statistics}
+\input{fitness-plot.tex}
 
 \title{Homework Module: \textbf{Programming the Basics of an Evolutionary Algorithm(EA)}}
 
@@ -16,12 +25,73 @@ The assignment is to implement all of the basic components of an evolutionary al
 
 \section{The Evolutionary Algorithm Implementation}
 
-The evolutionary algorithm solver presented in this solution is implemented as modular python library.
+The evolutionary algorithm solver presented in this solution is implemented as a modular python library.
 A generic solver function solves arbitrary problems supplied by the user of the library.
 
+\begin{figure}
+\tikzstyle{action} = [rectangle, draw,
+        text width=5em, text centered, minimum height=3em]
+\tikzstyle{line} = [draw, -latex']
+\begin{tikzpicture}[node distance = 1.6cm, auto]
+    \tikzstyle{every node}=[font=\small]
+    % Place nodes
+    \node [action] (init) {Generate initial child population};
+    \node [action, below of=init] (phen) {Phenotype development};
+    \node [action, right of=phen, node distance=3cm] (fitn) {Fitness evaluation};
+    \node [action, below of=fitn] (asel) {Adult selection};
+    \node [action, below of=asel] (psel) {Parent selection};
+    \node [action, left of=psel, node distance=3cm] (cros) {Crossover};
+    \node [action, above of=cros] (muta) {Mutation};
+    \node [action, above of=fitn] (goal) {Accept solution};
+    % Draw edges
+    \path [line] (init) -- (phen);
+    \path [line] (phen) -- (fitn);
+    \path [line] (fitn) -- (asel);
+    \path [line] (asel) -- (psel);
+    \path [line] (psel) -- (cros);
+    \path [line] (cros) -- (muta);
+    \path [line] (muta) -- (phen);
+    \path [line] (fitn) -- (goal);
+\end{tikzpicture}
+\caption{An abstract overview of the algorithm flow.}
+\label{figure:flow}
+\end{figure}
+
+The flow of the evolutionary algorithm is identical to the one proposed in section 1 of ~\cite{ea-appendices} and is illustrated in figure \ref{figure:flow}.
+
+Each step in the algorithm can be implemented using different strategies.
+Different strategies have different success rates for different problems, so it is important to choose a good strategy for a given problem.
+Because of this, the solver library implements multiple different strategies for each step of the algorithm.
+The different implemented strategies are elaborated upon in the following sections.
+
 \subsection{Adult Selection}
-Full generational replacement, over-production and generational mixing.
+Adult selection is the process of selecting individuals from the children pool and the adult pool to form the adult pool of the next generation.
+As suggested in \cite{ea-appendices}, the solver implements three different strategies for adult selection: full generation replacement, over-production, and generation mixing.
+
+\subsubsection{Full Generational Replacement}
+Full generational replacement is an adult selection strategy where the adult population of generation $ n $ consists of the entire child population of generation $ n - 1 $.
+It requires that the child and adult populations are equally large.
+
+\subsubsection{Over-production}
+Over-production is an adult selection strategy where the adult population of generation $ n $ consists of a true subset of the child population of generation $ n - 1 $.
+The subset may be selected using many different methods.
+Weighting the subset selection by fitness is a popular choice.
+The implementation in the solver presented in this report uses unweighted random selection, as it is easier to implement.
+
+Over-production requires that the child population is larger than the adult population.
+
+\subsubsection{Generational Mixing}
+Generational mixing is an adult selection strategy similar to over-production, except that the selected subset is a subset of both the child and adult populations from the previous generation, rather than just the child generation.
+The same considerations for subset selection apply for generational mixing.
+The implementation in the solver presented in this reportuses unweighted random selection here, too.
+
+Generational mixing does not impose any restrictions on population sizes.
+
 \subsection{Parent Selection}
+Parent selection is the process of selecting adults for combination in the crossover stage.
+Parent selection strategies must take care to select fit individuals while at the same time allowing for the variance that allows the algorithm to avoid getting stuck at local maxima.
+The presented solver implements five different parent selection strategies: fitness-proportionate selection, sigma scaling selection, tournament selection, rank selection, and random selection.
+
 \subsubsection{Fitness-Proportionate Selection}
 Fitness-proportionate selection is a selection scheme where an individual is selected at random, with the probability of being chosen equal to $ \frac{f(i)}{F} $, where $ f(i) $ is the fitness of an individual, and $ F $ is the total fitness of the population.
 
@@ -32,7 +102,8 @@ Sigma-scaling selection is similar to fitness-proportionate scaling, but the pro
 
 Tournament selection is a selection scheme where a predefined $ k < | population | $ number of individuals are selected for participation in a tournament.
 Of these competing individuals, the one with the greatest fitness score gets selected.
-Tournament selection guarantees that the $ k - 1 $ worst individuals in a population will not get selected.
+Some tournament selection implementations use a variant of fitness proportionate scaling to select the winner individual from the tournament participants, but that is not the case in the presented solver.
+This is because always selecting the best individual amongst the tournament participants guarantees that the $ k - 1 $ worst individuals in a population will not get selected.
 
 \subsubsection{Rank Selection}
 
@@ -53,12 +124,20 @@ Crossover is a method for combining the genome of two individuals to create a ne
 The evolutionary algorithm implementation made for this assignment offers two different crossover strategies: split and per-component.
 
 \subsubsection{Split Crossover}
+Split crossover is a crossover scheme where a child's left part of its genome string comes from the first parent, and the right part of its genome string comes from the second parent.
+The split point defining where the left part of a genome ends and the right part of a genome begins is chosen at random for each crossover.
+
+An illustration of a split crossover can be seen in figure \ref{figure:split-crossover}.
 
 
 \subsubsection{Per-component Crossover}
+Per-component crossover is a crossover scheme where each component of a child's genome has an equal chance of coming from either the first or the second parent.
 
 
 \subsection{Mutation}
+Mutation is a method from introducing more variance into the population.
+The presented solver randomly mutates individuals as they are entered into the child pool.
+The mutation schemes in the presented solver are supplied by the user as a part of a problem description, as good mutation schemes are highly problem-dependent.
 
 \section{The One-Max Problem}
 
@@ -79,5 +158,188 @@ The fitness function $ f_{\textsc{OneMax}}(g) $ of a genotype $ g $ is defined a
 \begin{equation}\label{equation:fitness}
 f_{\textsc{OneMax}}(g) = \sum_{i=1}^{n} g_i
 \end{equation}
+
+
+\section{Performance analysis}
+
+\subsection{Finding a population size}
+
+Part of the assignment is to find an appriximate minimal population size that consistently solves OneMax in less than 100 generations while using full generational adult replacement and fitness-proportionate parent selection.
+The population size of 150 was empirically chosen.
+
+\subsection{Crossover and mutation evaluation}
+
+In order to measure the effect of crossover and mutation parameters, the solver was run with different parameters while adult selection was fixed to full generational replacement and parent selection was fixed to fitness-proportionate parent selection.
+For each configuration tested, the solver was run 100 times, logging the number of generations until a solution was found for each run.
+Results of the evaluation can be found represented as a box plot in figure \ref{figure:crossover-mutation}.
+
+The results clearly show that it is important to keep the mutation rate low enough to allow for enough exploitation.
+The results also seem to favor higher crossover rates.
+The configuration $ P_mutation = 0.001, P_crossover = 1 $ is chosen as the best configuration for further analysis of other components in the system.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{axis}
+[
+width=\columnwidth,
+ytick={1, 2, 3 , 4},
+yticklabels={
+    {$ P_{m} = 0.001 $ \\ $ P_{c} = 1 $},
+    {$ P_{m} = 0.01 $ \\ $ P_{c} = 1 $},
+    {$ P_{m} = 0.001 $ \\ $ P_{c} = 0.1 $},
+    {$ P_{m} = 0.001 $ \\ $ P_{c} = 0.5 $}
+},
+yticklabel style={align=center,font=\tiny},
+xlabel=Generations
+]
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.001, pgcrossover 1, fgr, fps, pop 150
+data\\
+62\\ 207\\ 90\\ 56\\ 116\\ 194\\ 98\\ 86\\ 58\\ 66\\
+81\\ 65\\ 77\\ 74\\ 89\\ 66\\ 83\\ 99\\ 90\\ 84\\ 72\\
+63\\ 101\\ 97\\ 151\\ 114\\ 90\\ 163\\ 106\\ 70\\ 65\\
+107\\ 73\\ 69\\ 133\\ 88\\ 105\\ 94\\ 176\\ 160\\ 68\\
+100\\ 73\\ 79\\ 67\\ 76\\ 140\\ 64\\ 86\\ 41\\ 100\\
+91\\ 58\\ 70\\ 61\\ 90\\ 60\\ 91\\ 66\\ 105\\ 89\\ 104\\
+73\\ 75\\ 94\\ 76\\ 71\\ 115\\ 83\\ 81\\ 78\\ 125\\
+141\\ 73\\ 69\\ 86\\ 121\\ 103\\ 84\\ 65\\ 59\\ 45\\
+73\\ 107\\ 81\\ 58\\ 162\\ 86\\ 115\\ 80\\ 113\\ 94\\
+57\\ 105\\ 152\\ 75\\ 284\\ 76\\ 77\\ 68\\
+};
+
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.01, pgcrossover 1, fgr, fps, pop 150
+data\\
+483\\ 1000\\ 578\\ 597\\ 1000\\ 1000\\ 497\\ 796\\ 760\\ 800\\ 1000\\ 1000\\ 1000\\ 1000\\ 1000\\ 1000\\ 1000\\ 855\\ 96\\ 361\\ 162\\ 1000\\ 334\\ 1000\\ 888\\ 1000\\ 924\\ 110\\ 153\\ 985\\ 1000\\ 1000\\ 610\\ 425\\ 1000\\ 1000\\ 1000\\ 691\\ 160\\ 592\\ 464\\ 1000\\ 241\\ 811\\ 1000\\ 1000\\ 1000\\ 1000\\ 336\\ 954\\ 469\\ 1000\\ 1000\\ 1000\\ 699\\ 1000\\ 133\\ 277\\ 321\\ 278\\ 1000\\ 1000\\ 189\\ 829\\ 393\\ 881\\ 1000\\ 207\\ 505\\ 1000\\ 422\\ 1000\\ 1000\\ 85\\ 1000\\ 499\\ 1000\\ 729\\ 428\\ 1000\\ 1000\\ 216\\ 1000\\ 341\\ 253\\ 177\\ 1000\\ 1000\\ 1000\\ 188\\ 888\\ 1000\\ 525\\ 842\\ 386\\ 1000\\ 403\\ 1000\\ 881\\ 117\\
+};
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.001, pgcrossover 0.1, fgr, fps, pop 150
+data\\
+83\\ 487\\ 110\\ 487\\ 118\\ 171\\ 154\\ 287\\ 95\\ 224\\ 97\\ 124\\ 379\\ 348\\ 251\\ 164\\ 276\\ 298\\ 378\\ 214\\ 472\\ 270\\ 117\\ 358\\ 117\\ 523\\ 146\\ 371\\ 134\\ 142\\ 157\\ 208\\ 305\\ 127\\ 286\\ 187\\ 417\\ 688\\ 458\\ 274\\ 223\\ 188\\ 158\\ 228\\ 337\\ 218\\ 145\\ 234\\ 235\\ 179\\ 206\\ 359\\ 212\\ 627\\ 137\\ 200\\ 149\\ 271\\ 108\\ 168\\ 274\\ 316\\ 145\\ 504\\ 396\\ 283\\ 256\\ 550\\ 345\\ 271\\ 187\\ 299\\ 198\\ 376\\ 146\\ 188\\ 122\\ 256\\ 126\\ 254\\ 248\\ 231\\ 276\\ 218\\ 138\\ 155\\ 335\\ 212\\ 211\\ 356\\ 222\\ 174\\ 351\\ 147\\ 189\\ 152\\ 804\\ 129\\ 502\\ 125\\
+};
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.001, pgcrossover 0.5, fgr, fps, pop 150
+data\\
+117\\ 86\\ 242\\ 140\\ 105\\ 112\\ 88\\ 66\\ 209\\ 63\\ 130\\ 136\\ 84\\ 95\\ 96\\ 84\\ 50\\ 254\\ 73\\ 169\\ 121\\ 303\\ 90\\ 95\\ 84\\ 195\\ 56\\ 61\\ 104\\ 66\\ 157\\ 84\\ 102\\ 109\\ 69\\ 69\\ 94\\ 58\\ 139\\ 118\\ 81\\ 97\\ 103\\ 104\\ 145\\ 65\\ 78\\ 93\\ 67\\ 83\\ 96\\ 167\\ 148\\ 90\\ 68\\ 198\\ 95\\ 62\\ 84\\ 75\\ 112\\ 127\\ 95\\ 99\\ 81\\ 172\\ 109\\ 100\\ 76\\ 59\\ 89\\ 55\\ 75\\ 119\\ 57\\ 160\\ 87\\ 90\\ 94\\ 116\\ 122\\ 135\\ 120\\ 88\\ 98\\ 104\\ 121\\ 237\\ 60\\ 111\\ 75\\ 172\\ 95\\ 65\\ 72\\ 167\\ 89\\ 88\\ 70\\ 69\\
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Solution efficiency of the algorithm for different configurations of probability of mutation $ P_m $, and probability of crossover $ P_c $, measured in number of generations until solution acceptance over 100 runs.}
+\label{figure:crossover-mutation}
+\end{figure}
+
+\subsection{Comparison of Parent Selection Mechanisms}
+
+With the same parameters and strategies as in the previous section, the efficiency of the different available parent selection mechanisms was measured.
+Again, each configuration was run 100 times.
+The results can be seen in figure \ref{figure:selection-comparison}.
+Random selection was also measured, but no test runs ever produced an acceptible solution, and is therefore not plotted in figure \ref{figure:selection-comparison}.
+
+The results show that, of the different selection configurations tested, tournament selection with $ k = 8 $ gives the best results.
+
+\begin{figure}
+\begin{tikzpicture}
+\begin{axis}
+[
+width=\columnwidth,
+ytick={1,2,3,4,5,6},
+yticklabels={
+    Fitness Proportionate,
+    Sigma Scaling,
+    Tournament ($ k = 4 $),
+    Tournament ($ k = 8 $),
+    Rank ($ k = 8 $),
+},
+xlabel=Generations
+]
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.001, pgcrossover 1, fgr, gps, pop 150
+data\\
+90\\ 69\\ 125\\ 119\\ 68\\ 90\\ 96\\ 127\\ 68\\ 119\\ 96\\ 169\\ 123\\ 78\\ 193\\ 61\\ 126\\ 54\\ 99\\ 50\\ 106\\ 64\\ 86\\ 119\\ 80\\ 52\\ 93\\ 123\\ 66\\ 81\\ 82\\ 64\\ 63\\ 84\\ 60\\ 149\\ 95\\ 86\\ 79\\ 87\\ 72\\ 150\\ 108\\ 106\\ 145\\ 103\\ 104\\ 116\\ 70\\ 79\\ 74\\ 103\\ 157\\ 89\\ 64\\ 76\\ 86\\ 78\\ 278\\ 72\\ 72\\ 169\\ 66\\ 88\\ 69\\ 106\\ 75\\ 80\\ 130\\ 83\\ 65\\ 76\\ 63\\ 60\\ 58\\ 52\\ 136\\ 102\\ 92\\ 77\\ 367\\ 117\\ 73\\ 122\\ 77\\ 77\\ 83\\ 66\\ 62\\ 80\\ 93\\ 115\\ 112\\ 69\\ 67\\ 76\\ 108\\ 211\\ 47\\ 88\\
+};
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.001, pgcrossover 1, fgr, sss, pop 150
+data\\
+14\\ 16\\ 14\\ 14\\ 11\\ 14\\ 13\\ 16\\ 15\\ 12\\ 14\\ 14\\ 13\\ 14\\ 13\\ 14\\ 15\\ 15\\ 14\\ 14\\ 13\\ 13\\ 13\\ 14\\ 13\\ 12\\ 14\\ 13\\ 14\\ 15\\ 14\\ 13\\ 14\\ 14\\ 11\\ 14\\ 15\\ 15\\ 14\\ 14\\ 13\\ 13\\ 14\\ 15\\ 12\\ 12\\ 13\\ 15\\ 16\\ 12\\ 13\\ 14\\ 13\\ 8\\ 11\\ 14\\ 13\\ 15\\ 12\\ 16\\ 11\\ 14\\ 15\\ 12\\ 13\\ 15\\ 11\\ 15\\ 14\\ 15\\ 14\\ 16\\ 13\\ 14\\ 13\\ 17\\ 14\\ 15\\ 14\\ 16\\ 12\\ 13\\ 13\\ 13\\ 14\\ 14\\ 13\\ 15\\ 13\\ 13\\ 14\\ 15\\ 14\\ 14\\ 14\\ 14\\ 14\\ 13\\ 14\\ 13\\
+};
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.001, pgcrossover 1, fgr, tsk4, pop 150
+data\\
+7\\ 8\\ 8\\ 9\\ 8\\ 9\\ 8\\ 8\\ 8\\ 8\\ 8\\ 8\\ 8\\ 9\\ 8\\ 7\\ 7\\ 8\\ 8\\ 8\\ 8\\ 9\\ 7\\ 8\\ 8\\ 9\\ 9\\ 8\\ 9\\ 9\\ 8\\ 9\\ 9\\ 9\\ 8\\ 9\\ 9\\ 9\\ 8\\ 8\\ 8\\ 9\\ 9\\ 8\\ 9\\ 7\\ 9\\ 9\\ 9\\ 9\\ 10\\ 9\\ 9\\ 9\\ 7\\ 9\\ 7\\ 7\\ 10\\ 9\\ 9\\ 8\\ 9\\ 8\\ 8\\ 8\\ 9\\ 9\\ 9\\ 7\\ 8\\ 9\\ 8\\ 9\\ 7\\ 9\\ 7\\ 8\\ 9\\ 7\\ 9\\ 9\\ 8\\ 9\\ 9\\ 10\\ 8\\ 8\\ 8\\ 8\\ 9\\ 9\\ 8\\ 10\\ 8\\ 8\\ 9\\ 9\\ 9\\ 8\\
+};
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.001, pgcrossover 1, fgr, tsk8, pop 150
+data\\
+7\\ 6\\ 6\\ 6\\ 7\\ 7\\ 5\\ 7\\ 7\\ 7\\ 8\\ 6\\ 6\\ 7\\ 7\\ 5\\ 7\\ 6\\ 7\\ 6\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 6\\ 7\\ 6\\ 6\\ 10\\ 7\\ 6\\ 6\\ 7\\ 6\\ 6\\ 7\\ 6\\ 7\\ 6\\ 7\\ 6\\ 7\\ 5\\ 6\\ 7\\ 7\\ 6\\ 6\\ 7\\ 7\\ 6\\ 7\\ 7\\ 7\\ 8\\ 7\\ 7\\ 7\\ 6\\ 7\\ 7\\ 7\\ 6\\ 8\\ 6\\ 7\\ 8\\ 7\\ 6\\ 7\\ 7\\ 7\\ 7\\ 6\\ 6\\ 7\\ 6\\ 7\\ 6\\ 7\\ 7\\ 6\\ 7\\ 7\\ 8\\ 6\\ 7\\ 6\\ 6\\
+};
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% pgmutate 0.001, pgcrossover 1, fgr, ranks, pop 150
+data\\
+56\\ 42\\ 51\\ 55\\ 43\\ 59\\ 36\\ 63\\ 32\\ 40\\ 53\\ 62\\ 57\\ 68\\ 46\\ 57\\ 54\\ 55\\ 61\\ 59\\ 54\\ 55\\ 63\\ 69\\ 32\\ 41\\ 49\\ 53\\ 57\\ 69\\ 73\\ 42\\ 112\\ 59\\ 61\\ 51\\ 58\\ 40\\ 49\\ 36\\ 42\\ 48\\ 46\\ 45\\ 61\\ 55\\ 46\\ 65\\ 49\\ 57\\ 52\\ 51\\ 58\\ 55\\ 43\\ 62\\ 64\\ 48\\ 50\\ 60\\ 50\\ 46\\ 43\\ 104\\ 43\\ 77\\ 49\\ 47\\ 51\\ 62\\ 43\\ 57\\ 41\\ 62\\ 62\\ 51\\ 75\\ 62\\ 57\\ 51\\ 37\\ 41\\ 62\\ 88\\ 37\\ 46\\ 40\\ 50\\ 53\\ 95\\ 59\\ 47\\ 44\\ 46\\ 47\\ 62\\ 40\\ 60\\ 37\\ 48\\
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Comparison of different selection mechanisms.}
+\label{figure:selection-comparison}
+\end{figure}
+
+\subsection{Problem variations}
+
+The One-Max problem is a special case of the more general problem of finding a specific known bit string in a known search space.
+Changing the target bit string in the One-Max problem is not expected to change the difficulty of the problem, but it does require a modification to the fitness function.
+To test this claim, the solver was tested on Known-Bitstring-Search, a problem similar to One-Max except that it tries to find a random bitstring rather than the bitstring composed of only $ 1 $.
+Figure \ref{figure:problem-variation} shows convergence of Known-Bitstring-Search as solved by the presented solver compared to One-Max.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{axis}
+[
+width=\columnwidth,
+ytick={1,2},
+yticklabels={
+    One-Max,
+    Known-Bitstring-Search
+},
+xlabel=Generations
+]
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% OneMax
+data\\
+7\\ 6\\ 6\\ 6\\ 7\\ 7\\ 5\\ 7\\ 7\\ 7\\ 8\\ 6\\ 6\\ 7\\ 7\\ 5\\ 7\\ 6\\ 7\\ 6\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 6\\ 7\\ 6\\ 6\\ 10\\ 7\\ 6\\ 6\\ 7\\ 6\\ 6\\ 7\\ 6\\ 7\\ 6\\ 7\\ 6\\ 7\\ 5\\ 6\\ 7\\ 7\\ 6\\ 6\\ 7\\ 7\\ 6\\ 7\\ 7\\ 7\\ 8\\ 7\\ 7\\ 7\\ 6\\ 7\\ 7\\ 7\\ 6\\ 8\\ 6\\ 7\\ 8\\ 7\\ 6\\ 7\\ 7\\ 7\\ 7\\ 6\\ 6\\ 7\\ 6\\ 7\\ 6\\ 7\\ 7\\ 6\\ 7\\ 7\\ 8\\ 6\\ 7\\ 6\\ 6\\
+};
+\addplot+[boxplot]
+table[row sep=\\, y index=0] {
+% Known-Bitstring-Search
+data\\
+6\\ 6\\ 7\\ 7\\ 6\\ 7\\ 7\\ 7\\ 7\\ 6\\ 6\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 6\\ 6\\ 6\\ 6\\ 7\\ 6\\ 8\\ 6\\ 6\\ 7\\ 6\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 6\\ 7\\ 6\\ 7\\ 7\\ 7\\ 7\\ 7\\ 8\\ 7\\ 6\\ 6\\ 7\\ 7\\ 7\\ 7\\ 7\\ 7\\ 6\\ 6\\ 7\\ 7\\ 6\\ 6\\ 6\\ 6\\ 5\\ 7\\ 7\\ 7\\ 6\\ 7\\ 7\\ 6\\ 8\\ 7\\ 7\\ 6\\ 7\\ 7\\ 7\\ 6\\ 6\\ 7\\ 6\\ 6\\ 6\\ 6\\ 7\\ 7\\ 8\\ 7\\ 6\\ 7\\ 6\\ 7\\ 7\\ 8\\ 7\\ 6\\ 7\\ 7\\ 6\\ 6\\
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Comparison of difficulty of Known-Bitstring-Search and One-Max. Both problems were solved with the same parameters as the Tournament Selection ($ k = 8 $) entry of figure \ref{figure:crossover-mutation}.}
+\label{figure:problem-variation}
+\end{figure}
+
+
+
+%\begin{figure}[H]
+%\centering
+%\subfloat[a]{\input{plots/40bit-150population-fpselection-0.1splcrossover-0.001pgmutation.tex}}
+%\subfloat[b]{\input{plots/40bit-150population-fpselection-1splcrossover-0.001pgmutation.tex}}
+%\qquad
+%\subfloat[c]{\input{plots/40bit-150population-fpselection-0splcrossover-0pgmutation.tex}}
+%\subfloat[d]{\input{plots/40bit-150population-fpselection-1splcrossover-0.5pgmutation.tex}}
+%\end{figure}
 
 \end{document}
