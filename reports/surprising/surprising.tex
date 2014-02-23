@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[twocolumn,oneside]{amsart}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper]{geometry}
 \usepackage{pgfplots}
@@ -7,6 +7,8 @@
 \usepackage{tabularx}
 \pgfplotsset{compat=1.8}
 \usepgfplotslibrary{statistics}
+
+\newgeometry{top=3cm,bottom=3cm}
 
 \title{Homework Module: \textbf{Searching for \textit{Surprising Sequences} with a Genetic Algorithm}}
 
@@ -23,16 +25,15 @@ The assignment is to use a previously developed genetic algorithm framework to f
 
 \section{Surprising Sequences}
 
-A surprising sequence, as defined by the well-known puzzle writer Dennis Shasha~\cite{ea-surprisers}, is a sequence of symbols free of repeating patterns. Formally:
+A surprising sequence, as defined by the well-known puzzle writer Dennis Shasha, is a sequence of symbols free of repeating patterns. Formally:
 
-A sequence is surprising if and only if, for every pair of symbols, $ A $ and $ B $, and any distance $ d $, there is at most ONE instance in the sequence of $ AX_dB$, where $ X_d $ is any subsequence of length $ d $.\cite{ea-surprisers}
-d.
+''A sequence is surprising if and only if, for every pair of symbols, $ A $ and $ B $, and any distance $ d $, there is at most ONE instance in the sequence of $ AX_dB$, where $ X_d $ is any subsequence of length $ d $.``\footnote{K. Downing, Searching for \textit{Surprising Sequences} with a Genetic Algorithm.}
 
 This report considers two types of surprising sequences: locally surprising sequences and globally surprising sequences.
 The latter are sequences as defined above, while the former are sequences in which there are no repeat occurrences of $ AX_0B $.
 
 \subsection{Upper Bounds}
-Since the task is to find the longest surprising sequence given a symbol set, it is useful to calculate upper bounds for the length of the longest suprising sequence.
+Since the task is to find the longest surprising sequence given a symbol set, it is useful to calculate upper bounds for the length of the longest surprising sequence.
 
 \subsubsection{Globally Surprising Sequences}
 
@@ -40,21 +41,49 @@ It turns out that, given a symbol set of size $ s $, the longest surprising sequ
 
 Consider a longest surprising sequence for a given symbol set size $ s $, $ Z $.
 Let $ x_i $ be the number of symbols that occur $ i $ times in the sequence.
-Then, the length of of the longest surprising sequence is $ l = \sum_{i=1}^{s} i x_i $.
-Since every symbol in the symbol set is trivially a part of a longest surprising sequence for that symbol set, the symbol set size can be expressed as $ s = \sum_{i=1}^{s} x_i $.
+Then, the length of of the longest surprising sequence is:
+\begin{equation}
+l = \sum_{i=1}^{s} i x_i
+\end{equation}
 
-In order to show that $ l < 3s $, it must be shown that $ \sum_{i=1}^{s} i x_i < \sum_{i=1}^{s} 3 x_i $, or simplified, that $ \sum_{i=4}^{s} (i - 3) x_i < 2x_1 + x_2 $.
+Since every symbol in the symbol set is trivially a part of a longest surprising sequence for that symbol set, the symbol set size can be expressed as:
+\begin{equation}
+s = \sum_{i=1}^{s} x_i
+\end{equation}
+
+In order to show that $ l < 3s $, it must be shown that:
+\begin{equation}
+\sum_{i=1}^{s} i x_i < \sum_{i=1}^{s} 3 x_i
+\end{equation}
+, or simplified, that:
+\begin{equation}
+\sum_{i=4}^{s} (i - 3) x_i < 2x_1 + x_2
+\end{equation}
 
 Since the sequence is of a finite length $ l $, each symbol that occurs $ i $ times uses  $ i \choose 2 $ of the $ l - 1 $ different distances between the symbols of the sequence.
-This means that $ \sum_{i=2}^{s} i \choose 2 x_i < l $, or simplified, that $ \sum_{i=4}^{s} (i \choose 2 - i) x_i < a + b $.
+This means that:
+\begin{equation}
+    \sum_{i=2}^{s} {i \choose 2} x_i < l
+\end{equation}
+, or simplified, that:
+\begin{equation}
+    \sum_{i=4}^{s} ({i \choose 2} - i) x_i < a + b
+\end{equation}
 
-Since $ (i \choose 2 - i) < 2(k - 3) $, substituting gives that $ \sum_{i=4}^{s} 2(i - 3) x_i < x_1 + x_2 $, which, when simplified, shows that $ \sum_{i=4}^{s} i - 3) x_i < frac{x_1 + x_2}{2} $.
+Since $ ({i \choose 2} - i) < 2(k - 3) $, substituting gives:
+\begin{equation}
+\sum_{i=4}^{s} 2(i - 3) x_i < x_1 + x_2
+\end{equation}
+, which, when simplified, shows that:
+\begin{equation}
+\sum_{i=4}^{s} (i - 3) x_i < \frac{x_1 + x_2}{2}
+\end{equation}
 
-Because $ \frac{x_1 + x_2}{2} < 2x_1 + x_2 $, it follows that $ \sum_{i=4}^{s} (i - 3) x_i < 2x_1 - x_2 $, which is what was to be shown.
-
-\subsubsection{Locally Surprising Sequences}
-
-TODO: this.
+Because $ \frac{x_1 + x_2}{2} < 2x_1 + x_2 $, it follows that:
+\begin{equation}
+\sum_{i=4}^{s} (i - 3) x_i < 2x_1 - x_2
+\end{equation}
+, which is what was to be shown.
 
 \subsection{Genetic Coding}
 
@@ -65,14 +94,14 @@ The first involved giving sequences of length $ l $ an implicit ordering, and in
 This coding allowed for a continuous usage of the genotype space, but had two flaws.
 The first involved cases where the total number of possible sequences of length $ l $ was not a power of 2.
 In such cases, up to half of all possible genotypes would represent invalid sequences, which is counter-productive for a genetic solver.
-The other problem is that there was little correlation between mutations and fitness scores, which created a scenario in which exploration was too heavily prioritized over exploitiation, yielding poor results.
+The other problem is that there was little correlation between mutations and fitness scores, which created a scenario in which exploration was too heavily prioritized over exploitation, yielding poor results.
 
 The second bit vector coding approach involved grouping $ n $ bits into an integer representing one of the symbols from the set.
 This solved the problem of correlation between mutation and fitness scores, but still would, in the worst case, generate a lot of invalid sequences.
 
 Finally, the bit vector genotype was replaced with a symbol vector genotype.
 This genotype is like the bit vector, but allows for $ s $ values per component, rather than just 2.
-This symbol vector genotype did not have any of the problems enountered with the initial bit vector genotypes.
+This symbol vector genotype did not have any of the problems encountered with the initial bit vector genotypes.
 
 \subsection{Phenotype}
 
@@ -82,7 +111,7 @@ The translation process is quite straight-forward, mapping the symbol vector of 
 \subsection{Fitness}
 For both the locally and globally surprising sequences' fitness calculation, the basic algorithm is the same.
 Every single $ AX_dB $ subsequence is considered for a given phenotype.
-For each occurrance of a $ AX_dB $ sequence beyond the first occurance, a penalty is counted.
+For each occurrence of a $ AX_dB $ sequence beyond the first occurrence, a penalty is counted.
 The final fitness score is then given as $ fitness = 1 / (1 + total_penalties) $, which has the convenient property of being normalized.
 
 
@@ -92,16 +121,16 @@ As described in the report presenting the algorithm framework, mutation can be q
 The mutation scheme for locally surprising sequences is quite simple: a symbol in the vector is selected at random, and substituted with a random symbol from the symbol set.
 
 The mutation scheme for globally surprising sequences is a little more elaborate.
-It considers the number of occurrances of the symbols already present in the sequence.
+It considers the number of occurrences of the symbols already present in the sequence.
 The replacement of a symbol is still random, but it is weighted so that symbols that are underrepresented in the string are prioritized.
-This is based on the intuition that a long surprising sequence is more likely to have a relatively even distribution of symbols, rather than a lot of occurences of a single symbol.
+This is based on the intuition that a long surprising sequence is more likely to have a relatively even distribution of symbols, rather than a lot of occurrences of a single symbol.
 
 \section{Comparison of problems}
 
 The task also specifies that a comparison of the relative difficulties of three problems should be made.
-The three problems are One-Max, as elaborated upon in \cite{onemax}, finding the longest globally surprising sequence for a symbol set of size 9, and finding the longest locally surprising sequence for a symbol set of size 9.
+The three problems are One-Max, as elaborated upon in the report presenting the EA framework, finding the longest globally surprising sequence for a symbol set of size 9, and finding the longest locally surprising sequence for a symbol set of size 9.
 
-Using the average number of generations before an acceptible solution as an indicator of difficulty, it is easy to see that OneMax is by far the easiest for the EA implementation to solve.
+Using the average number of generations before an acceptable solution as an indicator of difficulty, it is easy to see that One-Max is by far the easiest for the EA implementation to solve.
 That is because unlike most problems that are typically solved by EAs, it is easy to see when the optimal answer is reached.
 
 That is not the case with finding the longest surprising sequence.
@@ -111,7 +140,12 @@ Because of this, finding locally surprising and globally surprising sequences ca
 
 \section{Results}
 
-\newgeometry{left=1cm,right=1cm}
+Table \ref{table:local} and table \ref{table:global} show the longest surprising sequences for symbol sets of size between 3 and 20, including.
+All sequences were found with the solver using full generational adult replacement, tournament selection with $ k = 8 $, $ P_{crossover} = 1 $ and per-genome $ P_{mutation} = 0.001 $.
+The population size was 200 for every run.
+
+\newgeometry{top=1cm,left=1cm,right=1cm,bottom=1cm}
+\onecolumn
 \input{results-tables.tex}
 \restoregeometry
 

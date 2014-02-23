@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.8.26)  23 FEB 2014 18:10
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.8.26)  23 FEB 2014 19:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -856,13 +856,38 @@ File: tikzlibraryplotmarks.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 (/usr/share/texmf/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex
 File: pgflibraryplotmarks.code.tex 2010/10/15 v2.10 (rcs-revision 1.12)
 )))
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count132
+\lst@gtempboxa=\box62
+\lst@token=\toks45
+\lst@length=\count133
+\lst@currlwidth=\dimen183
+\lst@column=\count134
+\lst@pos=\count135
+\lst@lostspace=\dimen184
+\lst@width=\dimen185
+\lst@newlines=\count136
+\lst@lineno=\count137
+\lst@maxwidth=\dimen186
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+\c@lstnumber=\count138
+\lst@skipnumbers=\count139
+\lst@framebox=\box63
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+Package: listings 2007/02/22 1.4 (Carsten Heinz)
+
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count132
-\float@exts=\toks45
-\float@box=\box62
-\@float@everytoks=\toks46
-\@floatcapt=\box63
+\c@float@type=\count140
+\float@exts=\toks46
+\float@box=\box64
+\@float@everytoks=\toks47
+\@floatcapt=\box65
 )
 (/usr/share/texlive/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
@@ -872,53 +897,66 @@ Package: caption 2012/02/19 v3.2f Customizing captions (AR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
-\captionmargin=\dimen183
-\captionmargin@=\dimen184
-\captionwidth=\dimen185
-\caption@indent=\dimen186
-\caption@parindent=\dimen187
-\caption@hangindent=\dimen188
+\captionmargin=\dimen187
+\captionmargin@=\dimen188
+\captionwidth=\dimen189
+\caption@indent=\dimen190
+\caption@parindent=\dimen191
+\caption@hangindent=\dimen192
 )
 Package caption Info: AMS or SMF document class.
-\c@ContinuedFloat=\count133
+\c@ContinuedFloat=\count141
 Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
 )
-\c@KVtest=\count134
+\c@KVtest=\count142
 \sf@farskip=\skip51
-\sf@captopadj=\dimen189
+\sf@captopadj=\dimen193
 \sf@capskip=\skip52
 \sf@nearskip=\skip53
-\c@subfigure=\count135
-\c@subfigure@save=\count136
-\c@lofdepth=\count137
-\c@subtable=\count138
-\c@subtable@save=\count139
-\c@lotdepth=\count140
+\c@subfigure=\count143
+\c@subfigure@save=\count144
+\c@lofdepth=\count145
+\c@subtable=\count146
+\c@subtable@save=\count147
+\c@lotdepth=\count148
 \sf@top=\skip54
 \sf@bottom=\skip55
 )
 (/home/sigveseb/texmf/tex/generic/pgfplots/tex/generic/pgfplots/libs/tikzlibrar
-ypgfplots.statistics.code.tex) (./fitness-plot.tex) (./onemax.aux)
+ypgfplots.statistics.code.tex) (./fitness-plot.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+) (./onemax.aux
+
+LaTeX Warning: Label `listing:run' multiply defined.
+
+
+LaTeX Warning: Label `figure:selection-comparison' multiply defined.
+
+
+LaTeX Warning: Label `sub@figure:selection-comparison' multiply defined.
+
+)
 \openout1 = `onemax.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Try loading font information for U+msa on input line 17.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Try loading font information for U+msa on input line 52.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 17.
+LaTeX Font Info:    Try loading font information for U+msb on input line 52.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
@@ -960,17 +998,17 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count141
-\scratchdimen=\dimen190
-\scratchbox=\box64
-\nofMPsegments=\count142
-\nofMParguments=\count143
-\everyMPshowfont=\toks47
-\MPscratchCnt=\count144
-\MPscratchDim=\dimen191
-\MPnumerator=\count145
-\makeMPintoPDFobject=\count146
-\everyMPtoPDFconversion=\toks48
+\scratchcounter=\count149
+\scratchdimen=\dimen194
+\scratchbox=\box66
+\nofMPsegments=\count150
+\nofMParguments=\count151
+\everyMPshowfont=\toks48
+\MPscratchCnt=\count152
+\MPscratchDim=\dimen195
+\MPnumerator=\count153
+\makeMPintoPDFobject=\count154
+\everyMPtoPDFconversion=\toks49
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -1018,86 +1056,124 @@ e
 Package pgfplots notification 'compat/show suggested version=true': you might b
 enefit from \pgfplotsset{compat=1.9} (current compat level: 1.8).
 
+\c@lstlisting=\count155
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
+*geometry* verbose mode - [ newgeometry ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(89.62709pt, 418.25368pt, 89.6271pt)
+* v-part:(T,H,B)=(85.35826pt, 674.33032pt, 85.35826pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=418.25368pt
+* \textheight=674.33032pt
+* \oddsidemargin=17.3571pt
+* \evensidemargin=17.3571pt
+* \topmargin=-8.91173pt
+* \headheight=8.0pt
+* \headsep=14.0pt
+* \topskip=10.0pt
+* \footskip=12.0pt
+* \marginparwidth=90.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=7.0pt plus 11.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumntrue
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Overfull \hbox (1.26242pt too wide) in paragraph at lines 23--25
+
+Overfull \hbox (1.26242pt too wide) in paragraph at lines 59--61
 \OT1/cmr/m/n/10 rithm, and use them to solve the One-Max prob-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--56
+Underfull \hbox (badness 10000) in paragraph at lines 92--92
 []\OT1/cmr/m/sc/10 Figure 1.|\OT1/cmr/m/n/10 An ab-stract
  []
 
 
-Underfull \hbox (badness 6510) in paragraph at lines 56--56
+Underfull \hbox (badness 6510) in paragraph at lines 92--92
 \OT1/cmr/m/n/10 overview of the al-go-rithm
  []
 
 
-LaTeX Warning: Citation `ea-appendices' on page 1 undefined on input line 60.
-
-
-Overfull \hbox (10.4198pt too wide) in paragraph at lines 62--66
+Overfull \hbox (10.4198pt too wide) in paragraph at lines 99--103
 \OT1/cmr/m/n/10 mented us-ing dif-fer-ent strate-gies. Dif-fer-ent strate-
  []
 
 
-LaTeX Warning: Citation `ea-appendices' on page 1 undefined on input line 69.
-
-
-Overfull \hbox (2.23071pt too wide) in paragraph at lines 72--74
+Overfull \hbox (2.23071pt too wide) in paragraph at lines 109--111
  \OT1/cmr/m/n/10 2.1.1.\OT1/cmr/m/it/10 Full Gen-er-a-tional Re-place-ment.[] \
 OT1/cmr/m/n/10 Full gen-
  []
 
 
-Overfull \hbox (1.40128pt too wide) in paragraph at lines 72--74
+Overfull \hbox (1.40128pt too wide) in paragraph at lines 109--111
 \OT1/cmr/m/n/10 er-a-tional re-place-ment is an adult se-lec-tion strat-
  []
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (2.4112pt too wide) in paragraph at lines 96--97
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (2.4112pt too wide) in paragraph at lines 133--134
  \OT1/cmr/m/n/10 2.2.1.\OT1/cmr/m/it/10 Fitness-Proportionate Se-lec-tion.[] \O
 T1/cmr/m/n/10 Fitness-
  []
 
 
-LaTeX Warning: Citation `ea-appendices' on page 2 undefined on input line 99.
-
-
-Overfull \hbox (6.66156pt too wide) in paragraph at lines 99--100
+Overfull \hbox (6.66156pt too wide) in paragraph at lines 136--137
  \OT1/cmr/m/n/10 2.2.2.\OT1/cmr/m/it/10 Sigma Scal-ing Se-lec-tion.[] \OT1/cmr/
 m/n/10 Sigma-scaling se-
  []
 
 
-Overfull \hbox (5.89719pt too wide) detected at line 116
-\OML/cmm/m/it/10 P[] \OT1/cmr/m/n/10 = 2 \OMS/cmsy/m/n/10 ^^B []
- []
-
-
-Overfull \hbox (4.75786pt too wide) in paragraph at lines 123--125
+Overfull \hbox (4.75786pt too wide) in paragraph at lines 160--162
  \OT1/cmr/m/n/10 2.3.\OT1/cmr/bx/n/10 Crossover.[] \OT1/cmr/m/n/10 Crossover is
  a method for com-
  []
 
 
-Overfull \hbox (17.01735pt too wide) in paragraph at lines 127--129
+Overfull \hbox (17.01735pt too wide) in paragraph at lines 164--166
  \OT1/cmr/m/n/10 2.3.1.\OT1/cmr/m/it/10 Split Crossover.[] \OT1/cmr/m/n/10 Spli
 t crossover is a crossover
  []
 
 
-LaTeX Warning: Reference `figure:split-crossover' on page 2 undefined on input 
-line 130.
-
-
-Overfull \hbox (8.93921pt too wide) in paragraph at lines 134--135
+Overfull \hbox (8.93921pt too wide) in paragraph at lines 168--169
  \OT1/cmr/m/n/10 2.3.2.\OT1/cmr/m/it/10 Per-component Crossover.[] \OT1/cmr/m/n
 /10 Per-component
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+)
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 191.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 191.
+
+Underfull \hbox (badness 10000) in paragraph at lines 194--194
+[]\OT1/cmr/m/sc/10 Listing 1.|\OT1/cmr/m/n/10 The One-Max
+ []
+
+
+Underfull \hbox (badness 2600) in paragraph at lines 194--194
+\OT1/cmr/m/n/10 be solved with tour-na-ment
  []
 
 
@@ -1107,40 +1183,40 @@ VOLUTIONARY ALGORITHM(EA) []
  []
 
 [2]
-Overfull \hbox (1.20195pt too wide) in paragraph at lines 156--157
+Overfull \hbox (1.20195pt too wide) in paragraph at lines 219--220
  \OT1/cmr/m/n/10 3.2.\OT1/cmr/bx/n/10 Fitness Eval-u-a-tion.[] \OT1/cmr/m/n/10 
 The fit-ness func-tion
  []
 
 
-Overfull \hbox (1.46266pt too wide) in paragraph at lines 231--232
- [][] 
- []
-
-
-Overfull \hbox (6.0611pt too wide) in paragraph at lines 238--242
+Overfull \hbox (6.0611pt too wide) in paragraph at lines 246--250
  \OT1/cmr/m/n/10 4.3.\OT1/cmr/bx/n/10 Comparison of Par-ent Se-lec-tion Mech-
  []
 
 
-Overfull \hbox (66.9672pt too wide) in paragraph at lines 291--292
- [][] 
- []
-
-
-Overfull \hbox (4.42976pt too wide) in paragraph at lines 298--302
+Overfull \hbox (4.42976pt too wide) in paragraph at lines 255--259
  \OT1/cmr/m/n/10 4.4.\OT1/cmr/bx/n/10 Problem vari-a-tions.[] \OT1/cmr/m/n/10 T
 he One-Max prob-
  []
 
-
-Overfull \hbox (67.04095pt too wide) in paragraph at lines 329--330
+(./plots/40bit-150population-fpselection-1splcrossover-0.001pgmutation.tex)
+Overfull \hbox (10.57736pt too wide) in paragraph at lines 162--262
  [][] 
  []
 
 
-Underfull \hbox (badness 7151) in paragraph at lines 330--330
-\OT1/cmr/m/n/10 fi-culty of Known-Bitstring-
+Underfull \hbox (badness 1038) in paragraph at lines 262--262
+[]\OT1/cmr/m/sc/10 Figure 2.|\OT1/cmr/m/n/10 A sin-gle run of
+ []
+
+
+Underfull \hbox (badness 4303) in paragraph at lines 262--262
+\OT1/cmr/m/n/10 the solver solv-ing a One-
+ []
+
+
+Underfull \hbox (badness 3291) in paragraph at lines 262--262
+\OT1/cmr/m/n/10 lec-tion, fitness-proportionate
  []
 
 
@@ -1150,26 +1226,49 @@ VOLUTIONARY ALGORITHM(EA) []
  []
 
 [3]
+Underfull \hbox (badness 1917) in paragraph at lines 417--417
+[]\OT1/cmr/m/sc/8 (c) |\OT1/cmr/m/n/8 Com-par-i-son of dif-fer-ent se-lec-tion
+ []
+
+
+Underfull \hbox (badness 5245) in paragraph at lines 447--447
+[]\OT1/cmr/m/sc/8 (d) |\OT1/cmr/m/n/8 Com-par-i-son of dif-fi-culty of
+ []
+
+
+Underfull \hbox (badness 3078) in paragraph at lines 447--447
+\OT1/cmr/m/n/8 Known-Bitstring-Search and One-
+ []
+
+
+Overfull \hbox (30.70084pt too wide) in paragraph at lines 323--448
+ [][][] 
+ []
+
+
+Overfull \hbox (13.16467pt too wide) in paragraph at lines 323--448
+ [][] 
+ []
+
+
 Overfull \hbox (3.25197pt too wide) has occurred while \output is active
  \OT1/cmr/m/n/7 HOMEWORK MODULE: \OT1/cmr/bx/n/7 PROGRAMMING THE BASICS OF AN E
 VOLUTIONARY ALGORITHM(EA) []
  []
 
-[4
+[4] (./onemax.aux)
 
-] (./onemax.aux)
-
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 23000 strings out of 493485
- 549088 string characters out of 3143526
- 731673 words of memory out of 3000000
- 25691 multiletter control sequences out of 15000+200000
- 10605 words of font info for 41 fonts, out of 3000000 for 9000
+ 24815 strings out of 493485
+ 574363 string characters out of 3143526
+ 826997 words of memory out of 3000000
+ 27481 multiletter control sequences out of 15000+200000
+ 10906 words of font info for 42 fonts, out of 3000000 for 9000
  1118 hyphenation exceptions out of 8191
- 56i,11n,94p,720b,2154s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 58i,13n,98p,723b,2235s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texl
@@ -1178,16 +1277,18 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on onemax.pdf (4 pages, 189461 bytes).
+/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on onemax.pdf (4 pages, 227476 bytes).
 PDF statistics:
- 80 PDF objects out of 1000 (max. 8388607)
- 58 compressed objects within 1 object stream
+ 88 PDF objects out of 1000 (max. 8388607)
+ 64 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
